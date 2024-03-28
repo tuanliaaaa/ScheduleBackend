@@ -1,4 +1,6 @@
 package com.g11.schedule.service.impl;
 
-public class UserServiceImpl {
+import com.g11.schedule.service.UserService;
+
+public class UserServiceImpl implements UserService {
 }
