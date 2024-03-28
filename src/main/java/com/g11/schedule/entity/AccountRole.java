@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class UserRole {
+public class AccountRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUserRole;
@@ -14,5 +14,5 @@ public class UserRole {
     private Role role;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Account account;
 }

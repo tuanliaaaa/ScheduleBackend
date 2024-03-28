@@ -11,7 +11,7 @@ public class AssigmentUser {
     private int idAssigmentUser;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Account user;
     @ManyToOne
     @JoinColumn(name = "assigment_id")
     private Assigment assigment;
