@@ -1,6 +1,7 @@
 package com.g11.schedule.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class    SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter ;
+    @Autowired
     private final CustomerUserDetailsService customerUserDetailsService ;
 
 
