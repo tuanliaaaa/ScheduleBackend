@@ -41,4 +41,11 @@ public class AccountServiceImpl implements AccountService {
             throw new UsernameNotFoundException();
         }
     }
+
+    @Override
+    public Account findAccountByUsername(String username) {
+        return accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException());
+    }
+
+
 }

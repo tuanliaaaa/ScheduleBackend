@@ -11,7 +11,7 @@ public class Assigment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAssigment;
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", referencedColumnName = "idTeam")
     private Team team;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
