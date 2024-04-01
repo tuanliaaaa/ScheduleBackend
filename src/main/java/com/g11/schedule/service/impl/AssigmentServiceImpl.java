@@ -1,21 +1,28 @@
 package com.g11.schedule.service.impl;
 
+import com.g11.schedule.dto.ResponseGeneral;
 import com.g11.schedule.dto.request.AssignmentCreateRequest;
 import com.g11.schedule.dto.response.AssignmentOfUserResponse;
 import com.g11.schedule.dto.response.AssignmentResponse;
-import com.g11.schedule.entity.Account;
-import com.g11.schedule.entity.Assigment;
-import com.g11.schedule.entity.AssigmentUser;
-import com.g11.schedule.entity.Team;
+import com.g11.schedule.entity.*;
+import com.g11.schedule.exception.Assigment.AssigmentNotFoundException;
+import com.g11.schedule.exception.Assigment.AssigmentNotOfUserException;
+import com.g11.schedule.exception.Team.MemberNotInTeamException;
+import com.g11.schedule.exception.Team.TeamNotFoundException;
+import com.g11.schedule.exception.User.ListUserEmptyException;
+import com.g11.schedule.exception.User.UserAccessDeniedException;
+import com.g11.schedule.exception.User.UsernameNotFoundException;
+import com.g11.schedule.exception.base.AccessDeniedException;
 import com.g11.schedule.exception.base.NotFoundException;
-import com.g11.schedule.repository.AccountRepository;
-import com.g11.schedule.repository.AssigmentRepository;
-import com.g11.schedule.repository.AssigmentUserRepository;
-import com.g11.schedule.repository.ParticipantRepository;
+import com.g11.schedule.repository.*;
 import com.g11.schedule.service.AssigmentService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,57 +38,73 @@ public class AssigmentServiceImpl implements AssigmentService {
     private final AssigmentRepository assigmentRepository;
     private final AssigmentUserRepository assigmentUserRepository;
     private final ParticipantRepository participantRepository;
+    private final TeamRepository teamRepository;
     @Override
-    public AssignmentResponse createNewAssignment(AssignmentCreateRequest newAssigment, Team team) {
-        for (Integer idUser : newAssigment.getUsersId()) {
-            Optional<Account> memberOptional = accountRepository.findById(idUser);
-            if (memberOptional.isPresent()) {
-                Account account = memberOptional.get();
-                //check member in team
-                if (participantRepository.findByUserAndTeam(account, team).isEmpty()) {
-                    throw new NotFoundException(idUser.toString(), "in team");
-                }
-            }
+    public AssignmentResponse createNewAssignment(AssignmentCreateRequest newAssigment,Integer idTeam) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+        String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account user = accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        Team team = teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
+        List<Participant> participantList =participantRepository.findByUserAndTeam(user,team);
+        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
+            throw  new UserAccessDeniedException();
         }
         Assigment assigment = new Assigment();
         assigment.setTeam(team);
         assigment.setDescription(newAssigment.getDescription());
         assigment.setStartAt(newAssigment.getStartAt());
         assigment.setEndAt(newAssigment.getEndAt());
-        Assigment savedAssignment = assigmentRepository.save(assigment);
+
 
 
         List<AssigmentUser> assigmentUserList = new ArrayList<>();
         for (Integer idUser : newAssigment.getUsersId()){
             Optional<Account> memberOptional = accountRepository.findById(idUser);
             if (memberOptional.isPresent()) {
-                Account account = memberOptional.get();
+                if (!participantRepository.findByUserAndTeam(memberOptional.get(), team).isEmpty()){
+                    Account account = memberOptional.get();
                     AssigmentUser assigmentUser = new AssigmentUser();
-                    assigmentUser.setAssigment(savedAssignment);
+                    assigmentUser.setAssigment(assigment);
                     assigmentUser.setUser(account);
                     assigmentUser.setStatus(newAssigment.getStatus());
                     assigmentUser.setProcess(newAssigment.getProcess());
                     assigmentUserList.add(assigmentUser);
 
-            }else {
-                throw new NotFoundException(idUser.toString(), "member");
+                }
             }
         }
+        if(assigmentUserList.size()==0)throw  new ListUserEmptyException();
+        assigment = assigmentRepository.save(assigment);
         assigmentUserRepository.saveAll(assigmentUserList);
 
 
-        //retun
+        //return
         AssignmentResponse assignmentResponse = new AssignmentResponse();
         assignmentResponse.setTeamName(team.getTeamName());
-        assignmentResponse.setStartAt(savedAssignment.getStartAt());
-        assignmentResponse.setEndAt(savedAssignment.getEndAt());
-        assignmentResponse.setDescription(savedAssignment.getDescription());
+        assignmentResponse.setStartAt(assigment.getStartAt());
+        assignmentResponse.setEndAt(assigment.getEndAt());
+        assignmentResponse.setDescription(assigment.getDescription());
 
 
         return assignmentResponse;
     }
 
-    public List<AssignmentOfUserResponse> getAssignmentOfUser(Team team, Account account){
+    public List<AssignmentOfUserResponse> getAssignmentOfUser(Integer idTeam){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+        String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        Team team = teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
+        List<Participant> participantList =participantRepository.findByUserAndTeam(account,team);
+        if(participantList.size()==0){
+            throw new MemberNotInTeamException();
+        }
+
         List<AssignmentOfUserResponse> list = new ArrayList<>();
         List<AssigmentUser> assigmentUserList = assigmentUserRepository.findByUserIdAndTeamId(account.getIdUser(), team.getIdTeam());
 
@@ -95,13 +118,29 @@ public class AssigmentServiceImpl implements AssigmentService {
             assignmentResponse.setEndAt(assigment.getEndAt());
             list.add(assignmentResponse);
         }
-
         return list;
 
     }
 
     @Override
-    public Assigment getAssignmentById(Integer id) {
-        return assigmentRepository.findById(id).orElseThrow();
+    public AssignmentResponse getAssignmentById(Integer idAssigment) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw  new AccessDeniedException();
+        }
+        String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account user = accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        Assigment assigment = assigmentRepository.findById(idAssigment).orElseThrow(AssigmentNotFoundException::new);
+        List<AssigmentUser> assigmentUserList =assigmentUserRepository.findByUserAndAssigment(user,assigment);
+        if(assigmentUserList.size()==0){
+            throw new AssigmentNotOfUserException();
+        }
+        //return
+        AssignmentResponse assignmentResponse = new AssignmentResponse();
+        assignmentResponse.setDescription(assigment.getDescription());
+        assignmentResponse.setStartAt(assigment.getStartAt());
+        assignmentResponse.setEndAt(assigment.getEndAt());
+        assignmentResponse.setTeamName(assigment.getTeam().getTeamName());
+        return assignmentResponse;
     }
 }
