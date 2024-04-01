@@ -19,4 +19,5 @@ public interface AssigmentUserRepository  extends JpaRepository<AssigmentUser, I
 
 
     List<AssigmentUser> findByUserAndAssigment(Account user, Assigment assigment);
+    List<AssigmentUser> findByAssigment(Assigment assigment);
 }

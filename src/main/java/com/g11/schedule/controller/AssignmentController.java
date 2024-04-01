@@ -1,15 +1,13 @@
 package com.g11.schedule.controller;
 
 import com.g11.schedule.dto.ResponseGeneral;
+import com.g11.schedule.dto.request.AssigmentUpdateManageRequest;
 import com.g11.schedule.dto.request.AssignmentCreateRequest;
 import com.g11.schedule.dto.request.AssignmentUpdateRequest;
+import com.g11.schedule.dto.response.AssigmentManageResponse;
+import com.g11.schedule.dto.response.AssigmentUpdateManageResponse;
 import com.g11.schedule.dto.response.AssignmentOfUserResponse;
 import com.g11.schedule.dto.response.AssignmentResponse;
-import com.g11.schedule.entity.Account;
-import com.g11.schedule.entity.Assigment;
-import com.g11.schedule.entity.AssigmentUser;
-import com.g11.schedule.entity.Team;
-import com.g11.schedule.exception.User.UserAccessDeniedException;
 import com.g11.schedule.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -64,5 +58,21 @@ public class AssignmentController {
                 "Assignment status updated successfully", response), HttpStatus.OK);
     }
 
-    
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/AssigmentManage/{idAssigment}")
+    public ResponseEntity<?> getAssignmentManage(@PathVariable Integer idAssigment) {
+        AssigmentManageResponse response = assigmentUserService.getAssigmentManage(idAssigment);
+
+        return new ResponseEntity<>(ResponseGeneral.of(HttpStatus.OK.value(),
+                "Assignment status updated successfully", response), HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PatchMapping("/AssigmentManage/{idAssigment}")
+    public ResponseEntity<?> updateAssignmentManage(@RequestBody AssigmentUpdateManageRequest assigmentUpdateManageRequest, @PathVariable Integer idAssigment) {
+        AssigmentUpdateManageResponse response = assigmentService.updateAssignmentManage(assigmentUpdateManageRequest,idAssigment);
+
+        return new ResponseEntity<>(ResponseGeneral.of(HttpStatus.OK.value(),
+                "Assignment status updated successfully", response), HttpStatus.OK);
+    }
 }
