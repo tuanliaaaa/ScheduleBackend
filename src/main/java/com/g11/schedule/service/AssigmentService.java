@@ -1,6 +1,8 @@
 package com.g11.schedule.service;
 
+import com.g11.schedule.dto.request.AssigmentUpdateManageRequest;
 import com.g11.schedule.dto.request.AssignmentCreateRequest;
+import com.g11.schedule.dto.response.AssigmentUpdateManageResponse;
 import com.g11.schedule.dto.response.AssignmentOfUserResponse;
 import com.g11.schedule.dto.response.AssignmentResponse;
 import com.g11.schedule.entity.Account;
@@ -16,4 +18,6 @@ public interface AssigmentService {
 
 
     AssignmentResponse getAssignmentById(Integer id);
+    AssigmentUpdateManageResponse updateAssignmentManage(AssigmentUpdateManageRequest assigmentUpdateManageRequest, Integer idAssigment);
+
 }
