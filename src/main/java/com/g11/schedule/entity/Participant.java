@@ -12,9 +12,9 @@ public class Participant {
     private int idPaticipant;
     private String position;
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", referencedColumnName = "idTeam")
     private Team team;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
     private Account user;
 }

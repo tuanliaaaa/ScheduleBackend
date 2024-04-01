@@ -10,10 +10,10 @@ public class AssigmentUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idAssigmentUser;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
     private Account user;
     @ManyToOne
-    @JoinColumn(name = "assigment_id")
+    @JoinColumn(name = "assigment_id", referencedColumnName = "idAssigment")
     private Assigment assigment;
     private String status;
     private String process;
