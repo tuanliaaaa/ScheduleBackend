@@ -16,19 +16,6 @@ import java.util.List;
 @Slf4j
 public class ParticipantServiceImpl implements ParticipantService {
     private final ParticipantRepository participantRepository;
-    @Override
-    public Boolean checkManage(Team team, Account account) {
-        List<Participant> participants =  participantRepository.findByUserAndTeam(account,team);
-        for (Participant participant : participants){
-            if (participant.getPosition().toLowerCase().equals("manage")){
-                return true;
-            }
-        }
-        return false;
-    }
 
-    @Override
-    public Boolean checkIfUserInTeam(Team team, Account account) {
-        return !participantRepository.findByUserAndTeam(account,team).isEmpty();
-    }
+
 }

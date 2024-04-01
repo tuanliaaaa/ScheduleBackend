@@ -54,7 +54,7 @@ public class CostServiceImpl implements CostService {
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         Team team = teamRepository.findByIdTeam(costRequest.getIDTeam()).orElseThrow(TeamNotFoundException::new);
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,team);
-        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manager"))||participantList.size()==0){
+        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
             throw  new  UserAccessDeniedException();
         }
         Cost newCost = new Cost();

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public interface AssigmentService {
-    AssignmentResponse createNewAssignment(AssignmentCreateRequest assigment, Team team);
-    List<AssignmentOfUserResponse> getAssignmentOfUser(Team team, Account account);
+    AssignmentResponse createNewAssignment(AssignmentCreateRequest assigment,Integer idTeam);
+    List<AssignmentOfUserResponse> getAssignmentOfUser(Integer idTeam);
 
-    Assigment getAssignmentById(Integer id);
+
+    AssignmentResponse getAssignmentById(Integer id);
 }
