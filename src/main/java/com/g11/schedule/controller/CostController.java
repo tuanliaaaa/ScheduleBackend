@@ -25,15 +25,15 @@ import java.util.List;
 public class CostController {
     private final CostService costService;
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/Team/{idTeam}")
-    public ResponseEntity<ResponseGeneral<List<CostResponse>>> findCostByIDTeam(@PathVariable("idTeam") Integer idTeam){
-        ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.findCostByIDTeam(idTeam));
+    @GetMapping("/Asigment/{idAssigment}")
+    public ResponseEntity<ResponseGeneral<List<CostResponse>>> findCostByIDAssigment(@PathVariable("idAssigment") Integer idAssigment){
+        ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.findCostByIDAssigment(idAssigment));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/Team/{idTeam}")
-    public ResponseEntity<ResponseGeneral<CostResponse>> createCostByIDTeam(@Valid @RequestBody CostRequest costRequest,@PathVariable("idTeam") Integer idTeam){
-        ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.saveCost(costRequest,idTeam));
+    @PostMapping("/Assigment/{idAssigment}")
+    public ResponseEntity<ResponseGeneral<CostResponse>> createCostByIDTeam(@Valid @RequestBody CostRequest costRequest,@PathVariable("idAssigment") Integer idAssigment){
+        ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.saveCost(costRequest,idAssigment));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
     @PreAuthorize("isAuthenticated()")

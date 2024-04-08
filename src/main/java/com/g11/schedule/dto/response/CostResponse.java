@@ -12,12 +12,12 @@ import org.aspectj.apache.bcel.classfile.Code;
 @AllArgsConstructor
 public class CostResponse {
     private int idCost;
-    private int iDTeam;
+    private int iDAssigment;
     private String costName;
     private Integer price;
     public CostResponse(Cost cost){
         this.idCost=cost.getIdCost();
-        this.iDTeam=cost.getTeam().getIdTeam();
+        this.iDAssigment=cost.getAssigment().getIdAssigment();
         this.costName=cost.getCostName();
         this.price=cost.getPrice();
     }
