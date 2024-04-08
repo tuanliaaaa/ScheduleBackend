@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CostService {
     List<CostResponse> findCostByIDTeam(Integer idTeam);
-    CostResponse saveCost(CostRequest costRequest);
+    CostResponse saveCost(CostRequest costRequest,Integer idTeam);
     CostResponse getByIDCode(Integer idCode);
 }

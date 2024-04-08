@@ -7,7 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 
 public class CostRequest {
-    private int iDTeam;
     private String costName;
     private Integer price;
 }
