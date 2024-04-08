@@ -40,7 +40,7 @@ public class CostServiceImpl implements CostService {
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         Team team = teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,team);
-        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manager"))||participantList.size()==0){
+        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
           throw  new  UserAccessDeniedException();
         }
         List<Cost> costList=costRepository.findByTeamIdTeam(idTeam);
@@ -71,7 +71,7 @@ public class CostServiceImpl implements CostService {
         String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,cost.getTeam());
-        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manager"))||participantList.size()==0){
+        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
             throw  new  UserAccessDeniedException();
         }
         return new CostResponse(cost);
