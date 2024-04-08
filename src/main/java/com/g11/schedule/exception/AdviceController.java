@@ -28,13 +28,13 @@ import java.util.Objects;
 public class AdviceController {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseError<String>> handleAccessDeniedException(AccessDeniedException ex) {
-        return new ResponseEntity<>(ResponseError.of(403,"Access Denied",ex.getMessage()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ResponseError.of(401,"Access Denied",ex.getMessage()),HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
 
     public ResponseEntity<ResponseError<String>> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException ex) {
-        return new ResponseEntity<>(ResponseError.of(403,"Access Denied","Token hết hạn"),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ResponseError.of(403,"Access Denied","Token hết hạn"),HttpStatus.FORBIDDEN);
     }
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ResponseError<String>> handleNotFoundException(NotFoundException ex) {
