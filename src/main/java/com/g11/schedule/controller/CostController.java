@@ -32,8 +32,8 @@ public class CostController {
     }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/Team/{idTeam}")
-    public ResponseEntity<ResponseGeneral<CostResponse>> createCostByIDTeam(@Valid @RequestBody CostRequest costRequest){
-        ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.saveCost(costRequest));
+    public ResponseEntity<ResponseGeneral<CostResponse>> createCostByIDTeam(@Valid @RequestBody CostRequest costRequest,@PathVariable("idTeam") Integer idTeam){
+        ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.saveCost(costRequest,idTeam));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
     @PreAuthorize("isAuthenticated()")

@@ -49,10 +49,10 @@ public class CostServiceImpl implements CostService {
         return costResponses;
     }
     @Override
-    public CostResponse saveCost(CostRequest costRequest){
+    public CostResponse saveCost(CostRequest costRequest,Integer idTeam){
         String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
-        Team team = teamRepository.findByIdTeam(costRequest.getIDTeam()).orElseThrow(TeamNotFoundException::new);
+        Team team = teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,team);
         if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
             throw  new  UserAccessDeniedException();
