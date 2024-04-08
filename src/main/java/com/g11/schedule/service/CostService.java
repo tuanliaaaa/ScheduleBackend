@@ -6,7 +6,7 @@ import com.g11.schedule.dto.response.CostResponse;
 import java.util.List;
 
 public interface CostService {
-    List<CostResponse> findCostByIDTeam(Integer idTeam);
-    CostResponse saveCost(CostRequest costRequest,Integer idTeam);
+    List<CostResponse> findCostByIDAssigment(Integer idTeam);
+    CostResponse saveCost(CostRequest costRequest,Integer idAssigment);
     CostResponse getByIDCode(Integer idCode);
 }

@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface CostRepository  extends JpaRepository<Cost, Integer> {
-    List<Cost> findByTeamIdTeam(Integer teamId);
+    List<Cost> findByAssigmentIdAssigment(Integer assigmentID);
     Optional<Cost> findByIdCost(Integer codeId);
 }
