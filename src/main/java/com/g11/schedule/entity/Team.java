@@ -13,4 +13,5 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTeam;
     private String teamName;
+    private int costExpected;
 }

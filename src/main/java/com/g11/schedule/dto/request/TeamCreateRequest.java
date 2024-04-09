@@ -13,4 +13,7 @@ public class TeamCreateRequest {
     private String name;
     @NotEmpty(message = "user is not mandatory")
     private List<Integer> user;
+    @NotNull(message = "costExpected is not madatory")
+    private Integer costExpected;
+
 }
