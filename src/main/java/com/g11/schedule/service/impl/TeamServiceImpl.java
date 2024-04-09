@@ -47,7 +47,7 @@ public class TeamServiceImpl implements TeamService {
 
         Team team = new Team();
         team.setTeamName(request.getName());
-//        team = teamRepository.save(team);
+        team.setCostExpected(request.getCostExpected());
 
 
         // Tạo đối tượng Participants cho người dùng tạo nhóm
