@@ -15,7 +15,7 @@ public interface AssigmentUserRepository  extends JpaRepository<AssigmentUser, I
             "JOIN au.user u " +
             "JOIN au.assigment a " +
             "WHERE u.idUser = :userId AND a.team.idTeam = :teamId")
-    List<AssigmentUser> findByUserIdAndTeamId(@Param("userId") int userId, @Param("teamId") int teamId);
+    List<AssigmentUser> findByUserIdAndTeamId( int userId,  int teamId);
 
 
     List<AssigmentUser> findByUserAndAssigment(Account user, Assigment assigment);

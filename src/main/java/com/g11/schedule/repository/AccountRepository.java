@@ -2,6 +2,7 @@ package com.g11.schedule.repository;
 
 
 import com.g11.schedule.entity.Account;
+import com.g11.schedule.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByUsername(String username);
     @Query("SELECT ur.role.roleName FROM AccountRole ur WHERE ur.account.username = :username")
     List<String> findRolesByUsername(@Param("username") String username);
+    @Query("SELECT ur.role FROM AccountRole ur WHERE ur.account.username = :username")
+    List<Role> findRolesAllByUsername(@Param("username") String username);
 }

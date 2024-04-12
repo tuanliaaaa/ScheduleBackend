@@ -10,4 +10,5 @@ public class AssignmentResponse {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String description;
+    private String status;
 }
