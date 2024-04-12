@@ -86,6 +86,7 @@ public class TeamServiceImpl implements TeamService {
         //return
         response.setTeamName(team.getTeamName());
         response.setUserInTeamResponse(usersInTeamResponse);
+        response.setCostExpected(team.getCostExpected());
         return response;
     }
 

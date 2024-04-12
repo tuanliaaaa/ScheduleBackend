@@ -2,13 +2,16 @@ package com.g11.schedule.controller;
 
 import com.g11.schedule.dto.ResponseGeneral;
 import com.g11.schedule.dto.request.LoginRequest;
+import com.g11.schedule.dto.response.InforResponse;
 import com.g11.schedule.dto.response.LoginResponse;
 import com.g11.schedule.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,13 @@ public class AuthController {
         ResponseGeneral<LoginResponse> responseGeneral=ResponseGeneral.ofCreated("success", accountService.login(loginRequest));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("infor")
+    public ResponseEntity<ResponseGeneral<InforResponse>> infor(){
+        ResponseGeneral<InforResponse> responseGeneral=ResponseGeneral.ofCreated("success", accountService.infor());
+        return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
+    }
+
 //    @PostMapping("register")
 //    public ResponseGeneral<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
 // System.out.println(new BCryptPasswordEncoder().encode("amdin"));

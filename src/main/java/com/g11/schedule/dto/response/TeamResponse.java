@@ -9,4 +9,5 @@ public class TeamResponse {
     private String teamName;
 
     private List<UserInTeamResponse> userInTeamResponse;
+    private Integer costExpected;
 }
