@@ -67,4 +67,8 @@ public class AccountServiceImpl implements AccountService {
         return inforResponse;
     }
 
+    @Override
+    public List<Account> findAllAccounts(){
+        return accountRepository.findAll();
+    }
 }

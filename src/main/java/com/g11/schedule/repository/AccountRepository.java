@@ -19,4 +19,5 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     List<String> findRolesByUsername(@Param("username") String username);
     @Query("SELECT ur.role FROM AccountRole ur WHERE ur.account.username = :username")
     List<Role> findRolesAllByUsername(@Param("username") String username);
+
 }
