@@ -12,6 +12,4 @@ public interface TeamService {
     TeamResponse createNewTeam(TeamCreateRequest request);
 
     List<Account> getAllMemberInTeam(Integer idTeam);
-
-    List<AssigmentManageResponse> getAllAssignmentInTeam(Integer idTeam);
 }

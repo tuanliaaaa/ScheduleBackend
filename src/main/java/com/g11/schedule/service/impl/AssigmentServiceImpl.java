@@ -1,11 +1,8 @@
 package com.g11.schedule.service.impl;
 
-import com.g11.schedule.dto.ResponseGeneral;
 import com.g11.schedule.dto.request.AssigmentUpdateManageRequest;
 import com.g11.schedule.dto.request.AssignmentCreateRequest;
-import com.g11.schedule.dto.response.AssigmentUpdateManageResponse;
-import com.g11.schedule.dto.response.AssignmentOfUserResponse;
-import com.g11.schedule.dto.response.AssignmentResponse;
+import com.g11.schedule.dto.response.*;
 import com.g11.schedule.entity.*;
 import com.g11.schedule.exception.Assigment.AssigmentNotFoundException;
 import com.g11.schedule.exception.Assigment.AssigmentNotOfUserException;
@@ -15,15 +12,11 @@ import com.g11.schedule.exception.User.ListUserEmptyException;
 import com.g11.schedule.exception.User.UserAccessDeniedException;
 import com.g11.schedule.exception.User.UsernameNotFoundException;
 import com.g11.schedule.exception.base.AccessDeniedException;
-import com.g11.schedule.exception.base.NotFoundException;
 import com.g11.schedule.repository.*;
 import com.g11.schedule.service.AssigmentService;
-import com.g11.schedule.utils.MapperUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -165,6 +158,18 @@ public class AssigmentServiceImpl implements AssigmentService {
 
       assigmentRepository.save(assigment);
       return  new AssigmentUpdateManageResponse (assigment);
-    };
+    }
 
+    @Override
+    public List<AssignmentResponse> getAllAssignmentInTeam(Integer idTeam) {
+        List<AssignmentResponse> response = new ArrayList<>();
+
+        Team team = teamRepository.findByIdTeam(idTeam).orElseThrow();
+        List<Assigment> assigments = assigmentRepository.findAllByTeam(team);
+        for (Assigment assigment : assigments){
+            response.add(new AssignmentResponse(assigment.getIdAssigment(), assigment.getNameAssignment(),
+                    assigment.getStartAt(), assigment.getEndAt(), assigment.getDescription(), null));
+        }
+        return response;
+    }
 }

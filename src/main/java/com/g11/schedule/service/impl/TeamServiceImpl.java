@@ -96,11 +96,7 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.getAllMemberInTeam(idTeam);
     }
 
-    @Override
-    public List<AssigmentManageResponse> getAllAssignmentInTeam(Integer idTeam) {
-        List<AssigmentManageResponse> response = new ArrayList<>();
-        return response;
-    }
+
 
 
 }
