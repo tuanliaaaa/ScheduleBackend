@@ -82,6 +82,13 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
+
+<!--        img-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.8.0</version> <!-- Use the latest version available -->
+        </dependency>
     </dependencies>
 
     <build>
