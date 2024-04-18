@@ -58,7 +58,7 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
         assignmentResponse.setEndAt(assigmentUserList.get(0).getAssigment().getEndAt());
         assignmentResponse.setStatus(assigmentUserList.get(0).getStatus());
         assignmentResponse.setProcess(assigmentUserList.get(0).getProcess());
-
+        assignmentResponse.setIdAssigment(assigmentUserList.get(0).getAssigment().getIdAssigment());
         return assignmentResponse;
     }
 

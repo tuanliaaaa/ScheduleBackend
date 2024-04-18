@@ -120,6 +120,8 @@ public class AssigmentServiceImpl implements AssigmentService {
             assignmentResponse.setProcess(assigmentUser.getProcess());
             assignmentResponse.setStartAt(assigment.getStartAt());
             assignmentResponse.setEndAt(assigment.getEndAt());
+            assignmentResponse.setIdAssigment(assigment.getIdAssigment());
+            assignmentResponse.setNameAssignment(assignmentResponse.getNameAssignment());
             list.add(assignmentResponse);
         }
         return list;
