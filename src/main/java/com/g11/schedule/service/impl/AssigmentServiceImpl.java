@@ -56,6 +56,7 @@ public class AssigmentServiceImpl implements AssigmentService {
             throw  new UserAccessDeniedException();
         }
         Assigment assigment = new Assigment();
+        assigment.setNameAssignment(newAssigment.getNameAssignment());
         assigment.setTeam(team);
         assigment.setDescription(newAssigment.getDescription());
         assigment.setStartAt(newAssigment.getStartAt());
@@ -158,7 +159,10 @@ public class AssigmentServiceImpl implements AssigmentService {
           assigment.setEndAt(assigmentUpdateManageRequest.getEndAt());
       }if(assigmentUpdateManageRequest.getDescription()!=null){
           assigment.setDescription(assigmentUpdateManageRequest.getDescription());
+      }if(assigmentUpdateManageRequest.getNameAssignment()!=null){
+            assigment.setDescription(assigmentUpdateManageRequest.getNameAssignment());
       }
+
       assigmentRepository.save(assigment);
       return  new AssigmentUpdateManageResponse (assigment);
     };
