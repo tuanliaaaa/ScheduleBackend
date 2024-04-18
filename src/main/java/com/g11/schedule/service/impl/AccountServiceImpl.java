@@ -11,8 +11,10 @@ import com.g11.schedule.repository.AccountRepository;
 import com.g11.schedule.security.JwtUtilities;
 import com.g11.schedule.service.AccountService;
 import  com.g11.schedule.exception.User.UsernameNotFoundException;
+import com.g11.schedule.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final JwtUtilities jwtUtilities;
 
+    @Autowired
+    private FileService fileService;
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         try {
@@ -69,6 +73,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> findAllAccounts(){
-        return accountRepository.findAll();
+        List<Account> accounts = accountRepository.findAll();
+        List<Account> response = new ArrayList<>();
+        for (Account account : accounts){
+            account.setAvatar(fileService.getPhotoURL(account.getAvatar()));
+            response.add(account);
+        }
+        return response;
     }
 }
