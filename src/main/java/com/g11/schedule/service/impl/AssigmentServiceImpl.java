@@ -160,7 +160,7 @@ public class AssigmentServiceImpl implements AssigmentService {
       }if(assigmentUpdateManageRequest.getDescription()!=null){
           assigment.setDescription(assigmentUpdateManageRequest.getDescription());
       }if(assigmentUpdateManageRequest.getNameAssignment()!=null){
-            assigment.setDescription(assigmentUpdateManageRequest.getNameAssignment());
+            assigment.setNameAssignment(assigmentUpdateManageRequest.getNameAssignment());
       }
 
       assigmentRepository.save(assigment);
