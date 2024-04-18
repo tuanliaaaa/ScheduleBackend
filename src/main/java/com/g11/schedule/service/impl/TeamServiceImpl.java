@@ -90,5 +90,10 @@ public class TeamServiceImpl implements TeamService {
         return response;
     }
 
+    @Override
+    public List<Account> getAllMemberInTeam(Integer idTeam) {
+        return teamRepository.getAllMemberInTeam(idTeam);
+    }
+
 
 }

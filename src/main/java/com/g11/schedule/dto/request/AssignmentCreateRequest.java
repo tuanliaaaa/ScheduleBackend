@@ -11,6 +11,8 @@ import java.util.List;
 @Data
 public class AssignmentCreateRequest {
 
+    @NotNull(message = "name is not mandatory")
+    private String nameAssignment;
 
     @NotNull(message = "startAt is not mandatory")
     private LocalDateTime startAt;

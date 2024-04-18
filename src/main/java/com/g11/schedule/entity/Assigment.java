@@ -17,4 +17,5 @@ public class Assigment {
     private LocalDateTime endAt;
     private String description;
 
+    private String nameAssignment;
 }

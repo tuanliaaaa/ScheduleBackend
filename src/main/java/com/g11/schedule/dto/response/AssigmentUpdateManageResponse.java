@@ -19,11 +19,13 @@ public class AssigmentUpdateManageResponse {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String description;
+    private String nameAssignment;
     public AssigmentUpdateManageResponse(Assigment assigment){
         this.idAssigment=assigment.getIdAssigment();
         this.team=assigment.getTeam();
         this.startAt=assigment.getStartAt();
         this.endAt=assigment.getEndAt();
         this.description=assigment.getDescription();
+        this.nameAssignment = assigment.getNameAssignment();
     }
 }

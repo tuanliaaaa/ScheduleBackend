@@ -9,4 +9,5 @@ public class AssigmentUpdateManageRequest {
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String description;
+    private String nameAssignment;
 }

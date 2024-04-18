@@ -14,10 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/team")
@@ -32,5 +31,12 @@ public class TeamController {
     public ResponseEntity<?> newTeam(@Valid @RequestBody TeamCreateRequest teamCreateRequest){
         TeamResponse teamResponse = teamService.createNewTeam(teamCreateRequest);
         return new ResponseEntity<>(ResponseGeneral.ofCreated("success", teamResponse), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/member/{idTeam}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getAllMember(@PathVariable("idTeam") Integer idTeam){
+        List<Account> members = teamService.getAllMemberInTeam(idTeam);
+        return new ResponseEntity<>(ResponseGeneral.ofCreated("success", members), HttpStatus.OK);
     }
 }

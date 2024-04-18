@@ -10,5 +10,6 @@ import java.util.List;
 public interface TeamService {
     TeamResponse createNewTeam(TeamCreateRequest request);
 
+    List<Account> getAllMemberInTeam(Integer idTeam);
 
 }
