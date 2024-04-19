@@ -84,7 +84,8 @@ public class AssigmentServiceImpl implements AssigmentService {
         assignmentResponse.setStartAt(assigment.getStartAt());
         assignmentResponse.setEndAt(assigment.getEndAt());
         assignmentResponse.setDescription(assigment.getDescription());
-
+        assignmentResponse.setIdAssignment(assignmentResponse.getIdAssignment());
+        assigment.setNameAssignment(assigment.getNameAssignment());
 
         return assignmentResponse;
     }
