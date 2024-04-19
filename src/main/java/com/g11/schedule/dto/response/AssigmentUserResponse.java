@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AssigmentUserResponse {
+    private Integer idUser;
     private int idAssigmentUser;
     private String username;
     private String status;

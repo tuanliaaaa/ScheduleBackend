@@ -78,7 +78,7 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
         List<AssigmentUserResponse> assigmentUserResponseList = new ArrayList<>();
         for (AssigmentUser assigmentUser:assigmentUserList)
         {
-            assigmentUserResponseList.add(new AssigmentUserResponse(assigmentUser.getIdAssigmentUser(),assigmentUser.getUser().getUsername(),assigmentUser.getStatus(),assigmentUser.getProcess()));
+            assigmentUserResponseList.add(new AssigmentUserResponse(assigmentUser.getUser().getIdUser(),assigmentUser.getIdAssigmentUser(),assigmentUser.getUser().getUsername(),assigmentUser.getStatus(),assigmentUser.getProcess()));
         }
         return new AssigmentManageResponse(assigment.getIdAssigment(),assigment.getNameAssignment(), assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUserResponseList);
 
