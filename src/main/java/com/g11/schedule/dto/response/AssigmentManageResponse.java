@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AssigmentManageResponse {
     private int idAssigment;
+    private String nameAssignment;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private String description;

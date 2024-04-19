@@ -80,7 +80,7 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
         {
             assigmentUserResponseList.add(new AssigmentUserResponse(assigmentUser.getIdAssigmentUser(),assigmentUser.getUser().getUsername(),assigmentUser.getStatus(),assigmentUser.getProcess()));
         }
-        return new AssigmentManageResponse(assigment.getIdAssigment(),assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUserResponseList);
+        return new AssigmentManageResponse(assigment.getIdAssigment(),assigment.getNameAssignment(), assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUserResponseList);
 
     };
 }

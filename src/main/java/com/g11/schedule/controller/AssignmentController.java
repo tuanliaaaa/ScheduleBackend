@@ -75,4 +75,11 @@ public class AssignmentController {
         return new ResponseEntity<>(ResponseGeneral.of(HttpStatus.OK.value(),
                 "Assignment status updated successfully", response), HttpStatus.OK);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/Team/{idTeam}")
+    public ResponseEntity<?> getAllAssignmentInTeam(@PathVariable Integer idTeam){
+        List<AssignmentResponse> assignmentResponse = assigmentService.getAllAssignmentInTeam(idTeam);
+        return new ResponseEntity<>(ResponseGeneral.ofCreated("success", assignmentResponse), HttpStatus.CREATED);
+    }
 }
