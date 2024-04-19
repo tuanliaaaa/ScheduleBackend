@@ -71,4 +71,16 @@ public class CostServiceImpl implements CostService {
         }
         return new CostResponse(cost);
     }
+
+    @Override
+    public List<CostResponse> getByIdAssignment(Integer idAssignment) {
+        List<CostResponse> responses = new ArrayList<>();
+
+        List<Cost> costList = costRepository.findCostByIdAssignment(idAssignment);
+
+        for (Cost cost : costList){
+            responses.add(new CostResponse(cost));
+        }
+        return responses;
+    }
 }
