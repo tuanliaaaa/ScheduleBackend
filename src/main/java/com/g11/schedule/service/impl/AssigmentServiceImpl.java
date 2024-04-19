@@ -84,8 +84,8 @@ public class AssigmentServiceImpl implements AssigmentService {
         assignmentResponse.setStartAt(assigment.getStartAt());
         assignmentResponse.setEndAt(assigment.getEndAt());
         assignmentResponse.setDescription(assigment.getDescription());
-        assignmentResponse.setIdAssignment(assignmentResponse.getIdAssignment());
-        assigment.setNameAssignment(assigment.getNameAssignment());
+        assignmentResponse.setIdAssignment(assigment.getIdAssigment());
+        assignmentResponse.setAssingmentName(assigment.getNameAssignment());
 
         return assignmentResponse;
     }
@@ -171,7 +171,7 @@ public class AssigmentServiceImpl implements AssigmentService {
         List<Assigment> assigments = assigmentRepository.findAllByTeam(team);
         for (Assigment assigment : assigments){
             response.add(new AssignmentResponse(assigment.getIdAssigment(), assigment.getNameAssignment(),
-                    assigment.getStartAt(), assigment.getEndAt(), assigment.getDescription(), null));
+                    assigment.getStartAt(), assigment.getEndAt(), assigment.getDescription(), null,assigment.getNameAssignment()));
         }
         return response;
     }
