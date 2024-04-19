@@ -42,4 +42,11 @@ public class CostController {
         ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.getByIDCode(idCode));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/assignment/{idAssignment}")
+    public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByIdAssignment(@PathVariable("idAssignment") Integer idAssignment){
+        ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.getByIdAssignment(idAssignment));
+        return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
+    }
 }

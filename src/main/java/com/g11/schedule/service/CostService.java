@@ -9,4 +9,6 @@ public interface CostService {
     List<CostResponse> findCostByIDAssigment(Integer idTeam);
     CostResponse saveCost(CostRequest costRequest,Integer idAssigment);
     CostResponse getByIDCode(Integer idCode);
+
+    List<CostResponse> getByIdAssignment(Integer idAssignment);
 }
