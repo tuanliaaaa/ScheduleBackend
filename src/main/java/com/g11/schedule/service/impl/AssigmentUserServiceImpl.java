@@ -1,10 +1,7 @@
 package com.g11.schedule.service.impl;
 
 import com.g11.schedule.dto.request.AssignmentUpdateRequest;
-import com.g11.schedule.dto.response.AssigmentManageResponse;
-import com.g11.schedule.dto.response.AssigmentUserResponse;
-import com.g11.schedule.dto.response.AssignmentOfUserResponse;
-import com.g11.schedule.dto.response.AssignmentResponse;
+import com.g11.schedule.dto.response.*;
 import com.g11.schedule.entity.*;
 import com.g11.schedule.exception.Assigment.AssigmentNotFoundException;
 import com.g11.schedule.exception.Assigment.AssigmentNotOfUserException;
@@ -12,10 +9,7 @@ import com.g11.schedule.exception.Team.TeamNotFoundException;
 import com.g11.schedule.exception.User.UserAccessDeniedException;
 import com.g11.schedule.exception.User.UsernameNotFoundException;
 import com.g11.schedule.exception.base.AccessDeniedException;
-import com.g11.schedule.repository.AccountRepository;
-import com.g11.schedule.repository.AssigmentRepository;
-import com.g11.schedule.repository.AssigmentUserRepository;
-import com.g11.schedule.repository.ParticipantRepository;
+import com.g11.schedule.repository.*;
 import com.g11.schedule.service.AssigmentUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +28,7 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
     private final AssigmentRepository assigmentRepository;
     private final AccountRepository accountRepository;
     private final ParticipantRepository participantRepository;
+    private final TeamRepository teamRepository;
 
 
     @Override
@@ -84,4 +79,32 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
         return new AssigmentManageResponse(assigment.getIdAssigment(),assigment.getNameAssignment(), assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUserResponseList);
 
     };
+    public StatusAssigmentOfTeamManageResponse statusAssigmentOfTeamManageResponse(Integer idTeam){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+        String username =  (String) authentication.getPrincipal();
+        Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        Team team=teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
+        List<Participant> participantList =participantRepository.findByUserAndTeam(account,team);
+        if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
+            throw  new UserAccessDeniedException();
+        }
+        List<Assigment> assigmentList= assigmentRepository.findAllByTeam(team);
+        StatusAssigmentOfTeamManageResponse statusAssigmentOfTeamManageResponse = new StatusAssigmentOfTeamManageResponse();
+        List<StatusAssigmentAndUserManageResponse> statusAssigmentAndUserManageResponseList= new ArrayList<>();
+
+        for (Assigment assigment:assigmentList)
+        {
+            List<AssigmentUser> assigmentUser= assigmentUserRepository.findByAssigment(assigment);
+            if(assigmentUser.size()!=0){
+                statusAssigmentAndUserManageResponseList.add(new StatusAssigmentAndUserManageResponse(assigment.getIdAssigment(),assigment.getNameAssignment()
+                        ,assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUser.get(0).getUser().getIdUser(),assigmentUser.get(0).getIdAssigmentUser()
+                        ,assigmentUser.get(0).getUser().getUsername(),assigmentUser.get(0).getStatus(),assigmentUser.get(0).getProcess()));
+            }
+        }
+        return statusAssigmentOfTeamManageResponse;
+    };
+
 }
