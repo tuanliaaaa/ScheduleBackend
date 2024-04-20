@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,6 +48,18 @@ public class CostController {
     @GetMapping("/assignment/{idAssignment}")
     public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByIdAssignment(@PathVariable("idAssignment") Integer idAssignment){
         ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.getByIdAssignment(idAssignment));
+        return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/team/{idTeam}")
+    public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByOrderByRefundDate(@PathVariable("idTeam") Integer idTeam, @RequestParam("fromDate")LocalDate fromDate, @RequestParam("toDate")LocalDate toDate){
+        ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.getCostByOrderByRefundDate(idTeam, fromDate, toDate));
+        return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
+    }
+    @PreAuthorize("isAuthenticated()")
+    @PatchMapping("/{idCost}")
+    public ResponseEntity<ResponseGeneral<CostResponse>> updateCostByIdAssignment(@PathVariable("idCost") Integer idCost, @RequestBody CostRequest costRequest){
+        ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.updateCost(idCost, costRequest));
         return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
     }
 }
