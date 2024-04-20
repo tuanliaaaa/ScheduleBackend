@@ -104,6 +104,9 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
                         ,assigmentUser.get(0).getUser().getUsername(),assigmentUser.get(0).getStatus(),assigmentUser.get(0).getProcess()));
             }
         }
+        statusAssigmentOfTeamManageResponse.setIdTeam(team.getIdTeam());
+        statusAssigmentOfTeamManageResponse.setTeamName(team.getTeamName());
+        statusAssigmentOfTeamManageResponse.setStatusAssigmentAndUser(statusAssigmentAndUserManageResponseList);
         return statusAssigmentOfTeamManageResponse;
     };
 
