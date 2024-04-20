@@ -4,10 +4,7 @@ import com.g11.schedule.dto.ResponseGeneral;
 import com.g11.schedule.dto.request.AssigmentUpdateManageRequest;
 import com.g11.schedule.dto.request.AssignmentCreateRequest;
 import com.g11.schedule.dto.request.AssignmentUpdateRequest;
-import com.g11.schedule.dto.response.AssigmentManageResponse;
-import com.g11.schedule.dto.response.AssigmentUpdateManageResponse;
-import com.g11.schedule.dto.response.AssignmentOfUserResponse;
-import com.g11.schedule.dto.response.AssignmentResponse;
+import com.g11.schedule.dto.response.*;
 import com.g11.schedule.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,5 +78,11 @@ public class AssignmentController {
     public ResponseEntity<?> getAllAssignmentInTeam(@PathVariable Integer idTeam){
         List<AssignmentResponse> assignmentResponse = assigmentService.getAllAssignmentInTeam(idTeam);
         return new ResponseEntity<>(ResponseGeneral.ofCreated("success", assignmentResponse), HttpStatus.CREATED);
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/TeamStatusAssigmentManage/{idTeam}")
+    public ResponseEntity<?> getTeamStatusAssigmentManage(@PathVariable Integer idTeam){
+        StatusAssigmentOfTeamManageResponse assignmentResponse = assigmentUserService.statusAssigmentOfTeamManageResponse(idTeam);
+        return new ResponseEntity<>(ResponseGeneral.ofCreated("success", assignmentResponse), HttpStatus.OK);
     }
 }
