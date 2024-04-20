@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.aspectj.apache.bcel.classfile.Code;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class CostResponse {
@@ -15,10 +17,12 @@ public class CostResponse {
     private int iDAssigment;
     private String costName;
     private Integer price;
+    private LocalDate refundDate;
     public CostResponse(Cost cost){
         this.idCost=cost.getIdCost();
         this.iDAssigment=cost.getAssigment().getIdAssigment();
         this.costName=cost.getCostName();
         this.price=cost.getPrice();
+        this.refundDate = cost.getRefundDay();
     }
 }
