@@ -58,7 +58,7 @@ public class CostController {
     }
     @PreAuthorize("isAuthenticated()")
     @PatchMapping("/{idCost}")
-    public ResponseEntity<ResponseGeneral<CostResponse>> getCostByIdAssignment(@PathVariable("idCost") Integer idCost, @RequestBody CostRequest costRequest){
+    public ResponseEntity<ResponseGeneral<CostResponse>> updateCostByIdAssignment(@PathVariable("idCost") Integer idCost, @RequestBody CostRequest costRequest){
         ResponseGeneral<CostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.updateCost(idCost, costRequest));
         return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
     }
