@@ -14,6 +14,7 @@ import com.g11.schedule.exception.base.NotFoundException;
 import com.g11.schedule.repository.ParticipantRepository;
 import com.g11.schedule.repository.TeamRepository;
 import com.g11.schedule.repository.AccountRepository;
+import com.g11.schedule.service.FileService;
 import com.g11.schedule.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
     private final ParticipantRepository participantsRepository;
     private final AccountRepository accountRepository;
-
+    private final FileService fileService;
 
     @Override
     public TeamResponse createNewTeam(TeamCreateRequest request) {
@@ -93,7 +94,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Account> getAllMemberInTeam(Integer idTeam) {
-        return teamRepository.getAllMemberInTeam(idTeam);
+        List<Account> accounts= teamRepository.getAllMemberInTeam(idTeam);
+        List<Account> response = new ArrayList<>();
+        for (Account account : accounts){
+            account.setAvatar(fileService.getPhotoURL(account.getAvatar()));
+            response.add(account);
+        }
+        return response;
     }
 
 
