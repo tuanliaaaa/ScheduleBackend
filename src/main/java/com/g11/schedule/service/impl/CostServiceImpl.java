@@ -90,8 +90,13 @@ public class CostServiceImpl implements CostService {
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,teamRepository.findByIdTeam(idTeam).orElseThrow());
         if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
             throw  new  UserAccessDeniedException();
+        } List<Cost> costList=new ArrayList<>();
+        if(fromDate==null ||toDate==null){
+            costList = costRepository.findCostInTeam(idTeam);
+        }else
+        {
+            costList = costRepository.findCostsByRefundDateBetweenInTeam(idTeam, fromDate, toDate);
         }
-        List<Cost> costList = costRepository.findCostsByRefundDateBetweenInTeam(idTeam, fromDate, toDate);
         List<CostResponse> costResponses = new ArrayList<>();
         for (Cost cost : costList){
             costResponses.add(new CostResponse(cost));

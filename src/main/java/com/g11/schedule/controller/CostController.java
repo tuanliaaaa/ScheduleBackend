@@ -52,7 +52,7 @@ public class CostController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/team/{idTeam}")
-    public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByOrderByRefundDate(@PathVariable("idTeam") Integer idTeam, @RequestParam("fromDate")LocalDate fromDate, @RequestParam("toDate")LocalDate toDate){
+    public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByOrderByRefundDate(@PathVariable("idTeam") Integer idTeam, @RequestParam(value = "fromDate",required = false)LocalDate fromDate, @RequestParam(value = "toDate",required = false)LocalDate toDate){
         ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.getCostByOrderByRefundDate(idTeam, fromDate, toDate));
         return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
     }

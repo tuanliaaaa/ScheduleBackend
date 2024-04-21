@@ -22,4 +22,7 @@ public interface CostRepository  extends JpaRepository<Cost, Integer> {
             "AND c.refundDay BETWEEN :fromDate AND :toDate " +
             "ORDER BY c.refundDay DESC")
     List<Cost> findCostsByRefundDateBetweenInTeam(@Param("idTeam") Integer idTeam, @Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
+    @Query("SELECT c FROM Cost c WHERE c.assigment.team.idTeam = :idTeam " )
+    List<Cost> findCostInTeam(@Param("idTeam") Integer idTeam);
+
 }
