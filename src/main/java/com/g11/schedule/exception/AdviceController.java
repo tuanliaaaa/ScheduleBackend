@@ -1,6 +1,7 @@
 package com.g11.schedule.exception;
 
 import com.g11.schedule.dto.ResponseError;
+import com.g11.schedule.exception.Date.DateBefore;
 import com.g11.schedule.exception.base.AccessDeniedException;
 import com.g11.schedule.exception.base.BaseException;
 import com.g11.schedule.exception.base.NotFoundException;
@@ -36,6 +37,7 @@ public class AdviceController {
     public ResponseEntity<ResponseError<String>> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException ex) {
         return new ResponseEntity<>(ResponseError.of(403,"Access Denied","Token hết hạn"),HttpStatus.FORBIDDEN);
     }
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ResponseError<String>> handleNotFoundException(NotFoundException ex) {
         return new ResponseEntity<>(ResponseError.of(400,"Not Found",ex.getMessage()),HttpStatus.BAD_REQUEST);
@@ -49,5 +51,9 @@ public class AdviceController {
             errors.put(fieldName, errorMessage);
         });
         return new ResponseEntity<>(ResponseError.of(400,"validate error",errors),HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(DateBefore.class)
+    public ResponseEntity<ResponseError<String>> handleNotFoundException(DateBefore ex) {
+        return new ResponseEntity<>(ResponseError.of(400,"Validate error",ex.getMessage()),HttpStatus.BAD_REQUEST);
     }
 }

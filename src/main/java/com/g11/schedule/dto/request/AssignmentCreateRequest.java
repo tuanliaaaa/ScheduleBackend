@@ -1,5 +1,6 @@
 package com.g11.schedule.dto.request;
 
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,9 +16,11 @@ public class AssignmentCreateRequest {
     private String nameAssignment;
 
     @NotNull(message = "startAt is not mandatory")
+    @Future(message = "startAt must be in the future")
     private LocalDateTime startAt;
 
     @NotNull(message = "endAt is not mandatory")
+    @Future(message = "endAt must be in the future")
     private LocalDateTime endAt;
 
     @NotBlank(message = "description is not mandatory")

@@ -6,12 +6,14 @@ import com.g11.schedule.dto.response.*;
 import com.g11.schedule.entity.*;
 import com.g11.schedule.exception.Assigment.AssigmentNotFoundException;
 import com.g11.schedule.exception.Assigment.AssigmentNotOfUserException;
+import com.g11.schedule.exception.Date.DateBefore;
 import com.g11.schedule.exception.Team.MemberNotInTeamException;
 import com.g11.schedule.exception.Team.TeamNotFoundException;
 import com.g11.schedule.exception.User.ListUserEmptyException;
 import com.g11.schedule.exception.User.UserAccessDeniedException;
 import com.g11.schedule.exception.User.UsernameNotFoundException;
 import com.g11.schedule.exception.base.AccessDeniedException;
+import com.g11.schedule.exception.base.BadRequestException;
 import com.g11.schedule.repository.*;
 import com.g11.schedule.service.AssigmentService;
 import lombok.Data;
@@ -37,6 +39,8 @@ public class AssigmentServiceImpl implements AssigmentService {
     private final TeamRepository teamRepository;
     @Override
     public AssignmentResponse createNewAssignment(AssignmentCreateRequest newAssigment,Integer idTeam) {
+        if(newAssigment.getEndAt().isBefore(newAssigment.getStartAt()))throw new DateBefore();
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException();
@@ -48,6 +52,7 @@ public class AssigmentServiceImpl implements AssigmentService {
         if((participantList.size()!=0&&!participantList.get(0).getPosition().equals("manage"))||participantList.size()==0){
             throw  new UserAccessDeniedException();
         }
+
         Assigment assigment = new Assigment();
         assigment.setNameAssignment(newAssigment.getNameAssignment());
         assigment.setTeam(team);
