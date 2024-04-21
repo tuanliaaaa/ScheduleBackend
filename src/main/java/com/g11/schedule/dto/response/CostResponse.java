@@ -18,11 +18,13 @@ public class CostResponse {
     private String costName;
     private Integer price;
     private LocalDate refundDate;
+    private String nameAssigment;
     public CostResponse(Cost cost){
         this.idCost=cost.getIdCost();
         this.iDAssigment=cost.getAssigment().getIdAssigment();
         this.costName=cost.getCostName();
         this.price=cost.getPrice();
         this.refundDate = cost.getRefundDay();
+        this.nameAssigment=cost.getAssigment().getNameAssignment();
     }
 }
