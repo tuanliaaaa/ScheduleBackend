@@ -138,6 +138,7 @@ public class AssigmentServiceImpl implements AssigmentService {
         //return
         AssignmentResponse assignmentResponse = new AssignmentResponse();
         assignmentResponse.setDescription(assigment.getDescription());
+        assignmentResponse.setIdAssignment(assigmentUserList.get(0).getAssigment().getIdAssigment());
         assignmentResponse.setStartAt(assigment.getStartAt());
         assignmentResponse.setEndAt(assigment.getEndAt());
         assignmentResponse.setTeamName(assigment.getTeam().getTeamName());
