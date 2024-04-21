@@ -5,9 +5,14 @@ import com.g11.schedule.dto.response.InforResponse;
 import com.g11.schedule.dto.response.LoginResponse;
 import com.g11.schedule.dto.response.RoleResponse;
 import com.g11.schedule.entity.Account;
+import com.g11.schedule.entity.Participant;
 import com.g11.schedule.entity.Role;
+import com.g11.schedule.entity.Team;
+import com.g11.schedule.exception.Team.TeamNotFoundException;
 import com.g11.schedule.exception.base.AccessDeniedException;
 import com.g11.schedule.repository.AccountRepository;
+import com.g11.schedule.repository.ParticipantRepository;
+import com.g11.schedule.repository.TeamRepository;
 import com.g11.schedule.security.JwtUtilities;
 import com.g11.schedule.service.AccountService;
 import  com.g11.schedule.exception.User.UsernameNotFoundException;
@@ -34,6 +39,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private FileService fileService;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private ParticipantRepository participantRepository;
+
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         try {
@@ -55,7 +65,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException());
     }
     @Override
-    public InforResponse infor() {
+    public InforResponse infor(Integer idTeam) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException();
@@ -63,11 +73,10 @@ public class AccountServiceImpl implements AccountService {
         String username =  (String) authentication.getPrincipal();
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         InforResponse inforResponse = new InforResponse();
-        List<Role> userRoles = accountRepository.findRolesAllByUsername(account.getUsername());
+        Team team=teamRepository.findByIdTeam(idTeam).orElseThrow(TeamNotFoundException::new);
+        List<Participant> participants= participantRepository.findByUserAndTeam(account,team);
         inforResponse.setIduser(account.getIdUser());
-        List<RoleResponse> roleResponsesList = new ArrayList<>();
-        for(Role role:userRoles) roleResponsesList.add(new RoleResponse(role.getIdRole(),role.getRoleName()));
-        inforResponse.setRoles(roleResponsesList);
+        inforResponse.setPotition(participants.get(0).getPosition());
         return inforResponse;
     }
 

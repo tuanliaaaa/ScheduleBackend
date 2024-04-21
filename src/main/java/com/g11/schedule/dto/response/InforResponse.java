@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class InforResponse {
     private int iduser;
-    private List<RoleResponse> roles;
+    private String potition;
 }

@@ -34,9 +34,9 @@ public class AuthController {
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("infor")
-    public ResponseEntity<ResponseGeneral<InforResponse>> infor(){
-        ResponseGeneral<InforResponse> responseGeneral=ResponseGeneral.ofCreated("success", accountService.infor());
+    @GetMapping("infor/{idTeam}")
+    public ResponseEntity<ResponseGeneral<InforResponse>> infor(@PathVariable Integer idTeam){
+        ResponseGeneral<InforResponse> responseGeneral=ResponseGeneral.ofCreated("success", accountService.infor(idTeam));
         return new ResponseEntity<>(responseGeneral, HttpStatus.CREATED);
     }
 

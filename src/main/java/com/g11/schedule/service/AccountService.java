@@ -11,6 +11,6 @@ public interface AccountService {
     LoginResponse login(LoginRequest loginRequest) ;
 
     Account findAccountByUsername(String username);
-    InforResponse infor();
+    InforResponse infor(Integer idTeam);
     List<Account> findAllAccounts();
 }
