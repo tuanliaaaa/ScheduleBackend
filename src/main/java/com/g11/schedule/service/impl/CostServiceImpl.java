@@ -2,6 +2,7 @@ package com.g11.schedule.service.impl;
 
 import com.g11.schedule.dto.request.CostRequest;
 import com.g11.schedule.dto.response.CostResponse;
+import com.g11.schedule.dto.response.TeamCostResponse;
 import com.g11.schedule.entity.*;
 import com.g11.schedule.exception.Assigment.AssigmentNotFoundException;
 import com.g11.schedule.exception.Cost.CostNotFoundException;
@@ -84,7 +85,7 @@ public class CostServiceImpl implements CostService {
     }
 
     @Override
-    public List<CostResponse> getCostByOrderByRefundDate(Integer idTeam, LocalDate fromDate, LocalDate toDate) {
+    public TeamCostResponse getCostByOrderByRefundDate(Integer idTeam, LocalDate fromDate, LocalDate toDate) {
         String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Account account= accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
         List<Participant> participantList =participantRepository.findByUserAndTeam(account,teamRepository.findByIdTeam(idTeam).orElseThrow());
@@ -98,10 +99,11 @@ public class CostServiceImpl implements CostService {
             costList = costRepository.findCostsByRefundDateBetweenInTeam(idTeam, fromDate, toDate);
         }
         List<CostResponse> costResponses = new ArrayList<>();
+
         for (Cost cost : costList){
             costResponses.add(new CostResponse(cost));
         }
-        return costResponses;
+        return new TeamCostResponse(idTeam,teamRepository.findByIdTeam(idTeam).get().getCostExpected(),costResponses);
     }
     @Override
     public CostResponse updateCost(Integer idOldCost, CostRequest costRequest){

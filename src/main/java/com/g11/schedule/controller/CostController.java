@@ -5,6 +5,7 @@ import com.g11.schedule.dto.ResponseGeneral;
 import com.g11.schedule.dto.request.CostRequest;
 import com.g11.schedule.dto.response.CostResponse;
 import com.g11.schedule.dto.response.LoginResponse;
+import com.g11.schedule.dto.response.TeamCostResponse;
 import com.g11.schedule.service.AccountService;
 import com.g11.schedule.service.CostService;
 import jakarta.validation.Valid;
@@ -52,8 +53,8 @@ public class CostController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/team/{idTeam}")
-    public ResponseEntity<ResponseGeneral<List<CostResponse>>> getCostByOrderByRefundDate(@PathVariable("idTeam") Integer idTeam, @RequestParam(value = "fromDate",required = false)LocalDate fromDate, @RequestParam(value = "toDate",required = false)LocalDate toDate){
-        ResponseGeneral<List<CostResponse>> responseGeneral= ResponseGeneral.of(200,"success",costService.getCostByOrderByRefundDate(idTeam, fromDate, toDate));
+    public ResponseEntity<ResponseGeneral<TeamCostResponse>> getCostByOrderByRefundDate(@PathVariable("idTeam") Integer idTeam, @RequestParam(value = "fromDate",required = false)LocalDate fromDate, @RequestParam(value = "toDate",required = false)LocalDate toDate){
+        ResponseGeneral<TeamCostResponse> responseGeneral= ResponseGeneral.of(200,"success",costService.getCostByOrderByRefundDate(idTeam, fromDate, toDate));
         return new ResponseEntity<>(responseGeneral, HttpStatus.OK);
     }
     @PreAuthorize("isAuthenticated()")
