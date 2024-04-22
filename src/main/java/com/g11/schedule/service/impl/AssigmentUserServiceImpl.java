@@ -98,10 +98,10 @@ public class AssigmentUserServiceImpl implements AssigmentUserService {
         for (Assigment assigment:assigmentList)
         {
             List<AssigmentUser> assigmentUser= assigmentUserRepository.findByAssigment(assigment);
-            if(assigmentUser.size()!=0){
+            for(int i=0;i<assigmentUser.size();i++){
                 statusAssigmentAndUserManageResponseList.add(new StatusAssigmentAndUserManageResponse(assigment.getIdAssigment(),assigment.getNameAssignment()
-                        ,assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUser.get(0).getUser().getIdUser(),assigmentUser.get(0).getIdAssigmentUser()
-                        ,assigmentUser.get(0).getUser().getUsername(),assigmentUser.get(0).getStatus(),assigmentUser.get(0).getProcess()));
+                        ,assigment.getStartAt(),assigment.getEndAt(),assigment.getDescription(),assigmentUser.get(i).getUser().getIdUser(),assigmentUser.get(i).getIdAssigmentUser()
+                        ,assigmentUser.get(i).getUser().getUsername(),assigmentUser.get(i).getStatus(),assigmentUser.get(i).getProcess()));
             }
         }
         statusAssigmentOfTeamManageResponse.setIdTeam(team.getIdTeam());
