@@ -21,6 +21,7 @@ public interface TeamRepository  extends JpaRepository<Team, Integer> {
 
     @Query("select t from Team t " +
             "join Participant p on t.idTeam = p.team.idTeam " +
-            "where p.user.idUser = :idUser")
+            "where p.user.idUser = :idUser " +
+            "ORDER BY t.idTeam DESC")
     List<Team> getTeamByUser(@Param("idUser") Integer idUser);
 }
