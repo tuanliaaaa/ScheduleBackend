@@ -87,6 +87,7 @@ public class TeamServiceImpl implements TeamService {
 
         //return
         response.setTeamName(team.getTeamName());
+        response.setIdTeam(team.getIdTeam());
         response.setUserInTeamResponse(usersInTeamResponse);
         response.setCostExpected(team.getCostExpected());
         return response;
@@ -103,7 +104,25 @@ public class TeamServiceImpl implements TeamService {
         return response;
     }
 
+    @Override
+    public List<TeamResponse> getTeams() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+        String username =  (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = accountRepository.findByUsername(username).orElseThrow(UsernameNotFoundException::new);
+        List<Team> teams = teamRepository.getTeamByUser(account.getIdUser());
 
+        List<TeamResponse> responses = new ArrayList<>();
+        for (Team team : teams){
+            TeamResponse teamResponse = new TeamResponse();
+            teamResponse.setTeamName(team.getTeamName());
+            teamResponse.setIdTeam(team.getIdTeam());
+            responses.add(teamResponse);
+        }
+        return responses;
+    }
 
 
 }

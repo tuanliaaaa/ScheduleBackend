@@ -18,4 +18,10 @@ public interface TeamRepository  extends JpaRepository<Team, Integer> {
             "join Participant p on a.idUser = p.user.idUser " +
             "where p.team.idTeam = :idTeam")
     List<Account> getAllMemberInTeam(@Param("idTeam") Integer idTeam);
+
+    @Query("select t from Team t " +
+            "join Participant p on t.idTeam = p.team.idTeam " +
+            "where p.user.idUser = :idUser " +
+            "ORDER BY t.idTeam DESC")
+    List<Team> getTeamByUser(@Param("idUser") Integer idUser);
 }

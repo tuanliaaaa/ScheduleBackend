@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class TeamResponse {
+    private Integer idTeam;
     private String teamName;
 
     private List<UserInTeamResponse> userInTeamResponse;
