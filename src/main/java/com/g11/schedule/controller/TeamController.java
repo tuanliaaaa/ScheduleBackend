@@ -33,6 +33,14 @@ public class TeamController {
         return new ResponseEntity<>(ResponseGeneral.ofCreated("success", teamResponse), HttpStatus.CREATED);
     }
 
+    @GetMapping("")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getTeams(){
+        List<TeamResponse> teamResponse = teamService.getTeams();
+        return new ResponseEntity<>(ResponseGeneral.of(200,"success", teamResponse), HttpStatus.OK);
+    }
+
+
     @GetMapping("/member/{idTeam}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getAllMember(@PathVariable("idTeam") Integer idTeam){
